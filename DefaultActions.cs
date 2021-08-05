@@ -98,7 +98,14 @@ namespace TranCore
         {
             isFall = true;
             animator.Play("Fall");
-            while (rig.velocity.y < -0.1f && isFall) yield return null;
+            while (rig.velocity.y < -0.1f && isFall)
+            {
+                if (rig.velocity.y < -0.1f && Mathf.Abs(rig.velocity.y) > HeroController.instance.MAX_FALL_VELOCITY)
+                {
+                    rig.SetVY(-HeroController.instance.MAX_FALL_VELOCITY);
+                }
+                yield return null;
+            }
             if (isFall && rig.velocity.y <= 0)
             {
                 yield return animator.PlayAnimWait("Land");
