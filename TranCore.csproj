@@ -68,8 +68,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DE.cs" />
     <Compile Include="DefaultActions.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Inv.cs" />
     <Compile Include="TranAttach.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

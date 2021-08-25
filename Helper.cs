@@ -43,13 +43,14 @@ namespace TranCore
         public static GameObject TranHeroAttack(this GameObject go,AttackTypes type, int damage)
         {
             if (go.GetComponent<DamageHero>() != null) UnityEngine.Object.Destroy(go.GetComponent<DamageHero>());
-            DamageEnemies damageEnemies = go.AddComponent<DamageEnemies>();
-            damageEnemies.ignoreInvuln = true;
-            damageEnemies.circleDirection = true;
-            damageEnemies.magnitudeMult = 1;
-            damageEnemies.damageDealt = damage;
-            damageEnemies.attackType = type;
-
+            DE de = go.AddComponent<DE>();
+            de.sc = 2;
+            HitInstance hit = de.hit = new HitInstance();
+            hit.CircleDirection = true;
+            hit.MagnitudeMultiplier = 1;
+            hit.Multiplier = 1;
+            hit.DamageDealt = damage * 3;
+            hit.AttackType = type;
             go.layer =(int) GlobalEnums.PhysLayers.HERO_ATTACK;
             return go;
         }

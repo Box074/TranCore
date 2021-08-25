@@ -18,6 +18,11 @@ namespace TranCore
             this.animator = animator;
             rig = rigidbody;
         }
+        public static bool MLeftTest() => Input.GetMouseButton(0);
+        public static bool MRightTest() => Input.GetMouseButton(1);
+        public static bool MLeftDownTest() => Input.GetMouseButtonDown(0);
+        public static bool MRightDownTest() => Input.GetMouseButtonDown(1);
+        public static bool NoPause() => !GameManager.instance.IsGamePaused();
         public static bool AlwaysTrue() => true;
         #region HeroControl
         public IEnumerator MoveHeroTo()
@@ -118,6 +123,7 @@ namespace TranCore
         }
         public void CancelFall()
         {
+            rig.velocity = new Vector2(rig.velocity.x, 0);
             isFall = false;
         }
         #endregion

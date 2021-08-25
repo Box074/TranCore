@@ -23,6 +23,22 @@ namespace TranCore
                 test = test
             };
         }
+        public void StopAction(string name)
+        {
+            if(actions.TryGetValue(name,out var v))
+            {
+                foreach(var v2 in v.instances)
+                {
+                    StopCoroutine(v2.coroutine);
+                }
+                v.instances.Clear();
+            }
+        }
+        public void StopAction(ActionInstance instance)
+        {
+            StopCoroutine(instance.coroutine);
+            instance.action.instances.Remove(instance);
+        }
         public void InvokeAction(string name)
         {
             if(actions.TryGetValue(name,out var v))
@@ -74,7 +90,11 @@ namespace TranCore
             invokeCount++;
             try
             {
-                yield return action.c();
+                Coroutine coroutine = StartCoroutine(action.c());
+                ActionInstance instance = new ActionInstance(action, coroutine);
+                action.instances.Add(instance);
+                yield return coroutine;
+                action.instances.Remove(instance);
             }
             finally
             {
@@ -167,16 +187,52 @@ namespace TranCore
             DontDestroyOnLoad(gameObject);
             foreach (var v in actions)
             {
+                v.Value.instances.Clear();
                 v.Value.invokeCount = 0;
             }
             invokeCount = 0;
         }
 
-        class Action
+        internal class Action
         {
-            public Func<IEnumerator> c;
-            public Func<bool>[] test;
-            public int invokeCount;
+            public string name = "";
+            public Func<IEnumerator> c = null;
+            public Func<bool>[] test = null;
+            public int invokeCount = 0;
+            public List<ActionInstance> instances = new List<ActionInstance>();
+        }
+        public class ActionInstance
+        {
+            internal ActionInstance(Action action,Coroutine coroutine)
+            {
+                this.action = action;
+                this.coroutine = coroutine;
+                guid = Guid.NewGuid().ToString();
+            }
+            internal Action action = null;
+            public Coroutine coroutine = null;
+            public readonly string guid = "";
+            public override bool Equals(object obj)
+            {
+                if (obj == this) return true;
+                if(obj is ActionInstance a)
+                {
+                    if (a.guid == guid) return true;
+                    else return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            public override string ToString()
+            {
+                return $"{action.name} - {guid}";
+            }
+            public override int GetHashCode()
+            {
+                return guid.GetHashCode();
+            }
         }
     }
 }
