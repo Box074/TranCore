@@ -18,7 +18,7 @@ namespace TranCore
 
         }
 		void OnTriggerEnter2D(Collider2D collider) => G(collider.gameObject);
-		void OnTriggerStay2D(Collider2D c) => G(collider.gameObject);
+		void OnTriggerStay2D(Collider2D collider) => G(collider.gameObject);
         void OnCollisionEnter2D(Collision2D collision)
         {
             OnCollisionStay2D(collision);
@@ -26,7 +26,7 @@ namespace TranCore
 		void G(GameObject go)
 		{
 			hit.Source = gameObject;
-            (collision.gameObject.GetComponent<Inv>() ?? collision.gameObject.AddComponent<Inv>()).Hit(
+            (go.GetComponent<Inv>() ?? go.AddComponent<Inv>()).Hit(
                 hit, 1f / (sc == 0 ? 1f : sc));
 		}
         void OnCollisionStay2D(Collision2D collision)
