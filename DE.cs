@@ -9,7 +9,7 @@ namespace TranCore
         // Use this for initialization
         void Start()
         {
-
+			
         }
 
         // Update is called once per frame
@@ -33,7 +33,7 @@ namespace TranCore
         {
             G(collision.gameObject);
         }
-        public int sc = 1;
+        public int sc = 5;
         public HitInstance hit;
     }
 }

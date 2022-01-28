@@ -45,12 +45,13 @@ namespace TranCore
             if (go.GetComponent<DamageHero>() != null) UnityEngine.Object.Destroy(go.GetComponent<DamageHero>());
             DE de = go.AddComponent<DE>();
             de.sc = 2;
-            HitInstance hit = de.hit = new HitInstance();
+            HitInstance hit = new HitInstance();
             hit.CircleDirection = true;
             hit.MagnitudeMultiplier = 1;
             hit.Multiplier = 1;
-            hit.DamageDealt = damage * 3;
+            hit.DamageDealt = 21;
             hit.AttackType = type;
+			de.hit = hit;
             go.layer =(int) GlobalEnums.PhysLayers.HERO_ATTACK;
             return go;
         }

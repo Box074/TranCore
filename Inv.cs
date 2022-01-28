@@ -25,7 +25,6 @@ namespace TranCore
             if (this.invt > 0) return;
             this.invt = invt;
 			FSMUtility.SendEventToGameObject(gameObject, "TOOK DAMAGE");
-			FSMUtility.SendEventToGameObject(gameObject, "HIT");
             HitTaker.Hit(gameObject, hit);
         }
         float invt = 0;
